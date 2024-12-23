@@ -1,35 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 /* עיצוב כותרת ותפריט */
 header {
     background-color: #333;
     color: white;
     padding: 10px;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  nav ul li {
-    display: inline;
-  }
-  
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-  }
-  
-  nav ul li a:hover {
-    background-color: #555;
+    text-align: center;
+    width: 100%; 
   }
   
   /* עיצוב אזור תוכן */
   main.content {
     padding: 20px;
     min-height: 400px; /* להבטיח שהתוכן לא ייפול */
+    min-height: calc(100vh - 100px);
+    box-sizing: border-box;
   }
   
   /* עיצוב פוטר */
