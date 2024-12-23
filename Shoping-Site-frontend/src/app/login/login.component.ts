@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  constructor(private router: Router) {}
   username = '';
   password = '';
 
@@ -15,5 +17,8 @@ export class LoginComponent {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
     // כאן תוכל להוסיף לוגיקה לקריאת API לאימות
+  };
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
   }
 }

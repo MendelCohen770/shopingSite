@@ -1,0 +1,59 @@
+.management-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  
+    h2, h3 {
+      text-align: center;
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+  
+      label {
+        display: flex;
+        flex-direction: column;
+      }
+  
+      button {
+        align-self: flex-start;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      button:disabled {
+        background-color: #ccc;
+      }
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+  
+      li {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+  
+        button {
+          padding: 4px 8px;
+          background-color: #dc3545;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  

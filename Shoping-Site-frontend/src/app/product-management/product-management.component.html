@@ -1,0 +1,30 @@
+<div class="management-container">
+    <h2>Manage Products</h2>
+  
+    <!-- טופס להוספת מוצר חדש -->
+    <form #productForm="ngForm" (ngSubmit)="addProduct()">
+      <label>
+        Product Name:
+        <input type="text" name="name" [(ngModel)]="newProduct.name" required />
+      </label>
+      <label>
+        Price:
+        <input type="number" name="price" [(ngModel)]="newProduct.price" required />
+      </label>
+      <label>
+        Description:
+        <textarea name="description" [(ngModel)]="newProduct.description"></textarea>
+      </label>
+      <button type="submit" [disabled]="!productForm.valid">Add Product</button>
+    </form>
+  
+    <!-- רשימת מוצרים למחיקה -->
+    <h3>Existing Products</h3>
+    <ul>
+      <li *ngFor="let product of products">
+        {{ product.name }} - {{ product.price | currency }}
+        <button (click)="deleteProduct(product)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  
