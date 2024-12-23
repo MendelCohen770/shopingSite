@@ -106,3 +106,4 @@ C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Si
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\Shoping-Site-beckend.pdb
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\Shoping-Site-beckend.genruntimeconfig.cache
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\ref\Shoping-Site-beckend.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -31,7 +31,7 @@ using (var scope = app.Services.CreateScope())
 
     if (users.Any())
     {
-        Console.WriteLine("חיבור למסד הנתונים הצליח!");
+        Console.WriteLine("DB connect!!!");
         foreach (var user in users)
         {
             Console.WriteLine($"User: {user.Username}");
@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
     }
     else
     {
-        Console.WriteLine("לא נמצאו משתמשים במסד הנתונים.");
+        Console.WriteLine("Users not found!.");
     }
 }
 
@@ -56,5 +56,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+Console.Beep();
 
 app.Run();
