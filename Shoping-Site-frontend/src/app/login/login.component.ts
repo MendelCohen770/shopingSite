@@ -18,6 +18,10 @@ export class LoginComponent {
     console.log('Password:', this.password);
     // כאן תוכל להוסיף לוגיקה לקריאת API לאימות
   };
+  navigateToHome(){
+    this.router.navigate(['/products']);
+  }
+
   navigateToSignup() {
     this.router.navigate(['/signup']);
   }

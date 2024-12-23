@@ -1,73 +1,124 @@
+// משתנים לצבעים
+$primary-color: #4a90e2; // כחול עיקרי
+$secondary-color: #f5a623; // כתום משלים
+$background-color: #f0f4f8; // רקע כללי
+$text-color: #333; // טקסט כהה
+$button-hover-color: darken($primary-color, 10%);
+$input-background: #fff;
+$input-border: #ddd;
+$button-active-color: darken($primary-color, 15%);
+
+// עיצוב בסיסי
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .signup-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-    text-align: center;
-  }
-  
+  background: $primary-color;
+  color: white;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+
   h2 {
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  p {
-    color: #555;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
+    font-size: 2rem;
     margin-bottom: 15px;
-    text-align: left;
+    font-weight: bold;
   }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
+
+  p {
+    margin-bottom: 30px;
+    font-size: 1rem;
   }
-  
-  input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid $input-border;
+      background-color: $input-background;
+      font-size: 1rem;
+      color: $text-color;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 10px rgba($primary-color, 0.5);
+      }
+    }
   }
-  
-  input:focus {
-    border-color: #28a745;
-    outline: none;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
+
+  button {
+    background: $secondary-color;
     color: white;
+    padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 16px;
+    width: 100%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-color;
+    }
+
+    &:active {
+      background-color: $button-active-color;
+      transform: scale(0.98);
+    }
   }
-  
-  .btn:hover {
-    background-color: #218838;
-  }
-  
+
   .login-link {
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+
+    button {
+      background: none;
+      color: $secondary-color;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.95rem;
+    }
   }
-  
-  .login-link a {
-    color: #28a745;
-    text-decoration: none;
+}
+
+// אנימציה להופעה
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .login-link a:hover {
-    text-decoration: underline;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}

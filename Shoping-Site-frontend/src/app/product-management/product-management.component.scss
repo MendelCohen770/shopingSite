@@ -1,66 +1,202 @@
-.management-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+// משתנים לצבעים
+$primary-color: #6c5ce7; // צבע סגול מגניב
+$secondary-color: #fd79a8; // צבע ורוד עדין
+$background-color: #f5f5f5; // רקע בהיר
+$text-color: #2d3436; // צבע טקסט כהה
+$product-card-background: #ffffff;
+$product-card-shadow: rgba(0, 0, 0, 0.1);
+$form-background: #ffffff;
+$form-shadow: rgba(0, 0, 0, 0.15);
+$button-hover-color: darken($primary-color, 15%);
 
-  h2, h3 {
-    text-align: center;
+// Reset for all elements
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  min-height: 100vh;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+// כותרת ניהול מוצרים
+.management-container h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  color: $primary-color;
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+// טופס הוספת מוצר
+form {
+  background-color: $form-background;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px $form-shadow;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+
+  label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
 
-  form {
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid $primary-color;
+    border-radius: 8px;
+    margin-top: 6px;
+    background-color: #f8f8f8;
+    transition: border 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      border-color: $secondary-color;
+      box-shadow: 0 0 8px rgba($secondary-color, 0.2);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  textarea {
+    height: 120px;
+    resize: vertical;
+  }
+
+  button {
+    background-color: $primary-color;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-color;
+      transform: translateY(-5px);
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+
+    &[disabled] {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// רשימת מוצרים - מוצרים במספר עמודות
+h3 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: $primary-color;
+}
+
+ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1200px;
+
+  li {
+    background-color: $product-card-background;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px $product-card-shadow;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    cursor: pointer;
 
-    label {
-      display: flex;
-      flex-direction: column;
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    div {
+      flex-grow: 1;
+      text-align: center;
+      h4 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: $primary-color;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: $text-color;
+        margin: 5px 0;
+      }
+
+      span {
+        font-weight: bold;
+        color: $secondary-color;
+        font-size: 1.2rem;
+      }
     }
 
     button {
-      align-self: flex-start;
-      padding: 8px 16px;
-      background-color: #007bff;
+      background-color: #e74c3c;
       color: white;
+      padding: 8px 16px;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
+      font-size: 1rem;
       cursor: pointer;
-    }
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
 
-    button:disabled {
-      background-color: #ccc;
-    }
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 8px 0;
-      border-bottom: 1px solid #ddd;
-
-      .product-image {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 4px;
+      &:hover {
+        background-color: darken(#e74c3c, 10%);
+        transform: scale(1.05);
       }
 
-      button {
-        padding: 4px 8px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
+      &:active {
+        transform: scale(0.95);
       }
     }
   }

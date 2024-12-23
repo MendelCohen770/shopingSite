@@ -37,4 +37,7 @@ export class ProductsComponent {
       this.filteredProducts = this.products; // אם החיפוש ריק, מציג את כל המוצרים
     }
   }
+  navigateToProductManagement() {
+    this.router.navigate(['/manage-products'])
+  }
 }

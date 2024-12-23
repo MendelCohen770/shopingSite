@@ -10,7 +10,7 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" placeholder="Enter your password" required />
     </div>
-    <button type="submit" class="btn">Login</button>
+    <button (click)="navigateToHome()" type="submit" class="btn">Login</button>
     <p>
       Don't have an account? 
       <button (click)="navigateToSignup()" style="border: none;">Sign up</button>

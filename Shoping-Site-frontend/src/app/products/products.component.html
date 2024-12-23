@@ -1,3 +1,5 @@
+<div>
+  <button (click)="navigateToProductManagement()">product-management</button>
 <div class="product-search">
     <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="חפש מוצרים..." />
   </div>
@@ -10,4 +12,5 @@
       <span>{{ product.price | currency:'ILS' }}</span>
     </div>
   </div>
+</div>
   
