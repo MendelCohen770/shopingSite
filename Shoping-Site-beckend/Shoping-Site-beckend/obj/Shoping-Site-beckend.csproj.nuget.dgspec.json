@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj": {}
+    "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj": {
+    "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
+        "projectUniqueName": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
         "projectName": "Shoping-Site-beckend",
-        "projectPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
+        "projectPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
         "packagesPath": "C:\\Users\\mende\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\obj\\",
+        "outputPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,6 +51,16 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"

@@ -1,4 +1,19 @@
+﻿//using Microsoft.EntityFrameworkCore;
+//using Shoping_Site_beckend.Data;
+
+
+using Microsoft.EntityFrameworkCore;
+using Shoping_Site_beckend.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+// הוספת DbContext עם החיבור ל-MySQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+                     new MySqlServerVersion(new Version(8, 0, 32)))); // עדכון לגרסה שלך
+
+
 
 // Add services to the container.
 
@@ -8,6 +23,26 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var users = dbContext.Users.ToList();  // שליפת כל המשתמשים
+
+    if (users.Any())
+    {
+        Console.WriteLine("חיבור למסד הנתונים הצליח!");
+        foreach (var user in users)
+        {
+            Console.WriteLine($"User: {user.Username}");
+        }
+    }
+    else
+    {
+        Console.WriteLine("לא נמצאו משתמשים במסד הנתונים.");
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
