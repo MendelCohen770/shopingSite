@@ -106,4 +106,12 @@ C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Si
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\Shoping-Site-beckend.pdb
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\Shoping-Site-beckend.genruntimeconfig.cache
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\ref\Shoping-Site-beckend.dll
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Newtonsoft.Json.dll

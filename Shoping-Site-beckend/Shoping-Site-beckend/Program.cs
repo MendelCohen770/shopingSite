@@ -4,6 +4,12 @@
 
 using Microsoft.EntityFrameworkCore;
 using Shoping_Site_beckend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +19,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                      new MySqlServerVersion(new Version(8, 0, 32)))); // עדכון לגרסה שלך
 
+// קונפיגורציה של Authentication ו-JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "yourIssuer",
+            ValidAudience = "yourAudience",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
+        };
+    });
 
 
 // Add services to the container.
@@ -34,7 +55,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("DB connect!!!");
         foreach (var user in users)
         {
-            Console.WriteLine($"User: {user.Username}");
+            Console.WriteLine($"User: {user.username}");
         }
     }
     else
@@ -42,6 +63,9 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("Users not found!.");
     }
 }
+
+app.UseAuthentication();  // מוסיף את Authentication
+app.UseAuthorization();   // מוסיף את Authorization
 
 
 // Configure the HTTP request pipeline.

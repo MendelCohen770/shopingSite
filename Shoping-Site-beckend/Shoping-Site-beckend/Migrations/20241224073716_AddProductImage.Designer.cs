@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shoping_Site_beckend.Models;
 
@@ -10,60 +11,59 @@ using Shoping_Site_beckend.Models;
 namespace Shoping_Site_beckend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241224073716_AddProductImage")]
+    partial class AddProductImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Shoping_Site_beckend.Models.Product", b =>
+            modelBuilder.Entity("ShopingSiteBackend.Models.Product", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("imageUrl")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal?>("price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("stock")
+                    b.Property<int?>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Shoping_Site_beckend.Models.User", b =>
+            modelBuilder.Entity("ShopingSiteBackend.Models.User", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("email")
-                        .IsRequired()
+                    b.Property<string>("Email")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("password")
-                        .IsRequired()
+                    b.Property<string>("Password")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("role")
+                    b.Property<string>("Role")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("username")
-                        .IsRequired()
+                    b.Property<string>("Username")
                         .HasColumnType("longtext");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });

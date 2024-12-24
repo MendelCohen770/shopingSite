@@ -1,10 +1,11 @@
-﻿namespace ShopingSiteBackend.Models
+﻿namespace Shoping_Site_beckend.Models
 {
     public class Product
     {
-        public int Id { get; set; }          // מזהה ייחודי
-        public string Name { get; set; }     // שם המוצר
-        public decimal Price { get; set; }   // מחיר המוצר
-        public int Stock { get; set; }       // כמות במלאי
+        public int id { get; set; }          // מזהה ייחודי
+        public string? name { get; set; }     // שם המוצר
+        public decimal? price { get; set; }   // מחיר המוצר
+        public int? stock { get; set; }       // כמות במלאי
+        public string? imageUrl { get; set; } // כתובת URL של התמונה
     }
 }

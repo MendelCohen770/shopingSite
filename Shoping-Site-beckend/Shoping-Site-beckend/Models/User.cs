@@ -1,12 +1,12 @@
-﻿namespace ShopingSiteBackend.Models
+﻿namespace Shoping_Site_beckend.Models
 {
     public class User
     {
-        public int Id { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        public string? Email { get; set; }
-        public string? Role { get; set; }
+        public int id { get; set; }
+        public required string username { get; set; }
+        public required string password { get; set; }
+        public required string email { get; set; }
+        public string? role { get; set; } = "User";
     }
 
 }
