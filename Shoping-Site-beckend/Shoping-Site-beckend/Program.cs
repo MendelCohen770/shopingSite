@@ -45,24 +45,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var users = dbContext.Users.ToList();  // שליפת כל המשתמשים
 
-    if (users.Any())
-    {
-        Console.WriteLine("DB connect!!!");
-        foreach (var user in users)
-        {
-            Console.WriteLine($"User: {user.username}");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Users not found!.");
-    }
-}
 
 app.UseAuthentication();  // מוסיף את Authentication
 app.UseAuthorization();   // מוסיף את Authorization

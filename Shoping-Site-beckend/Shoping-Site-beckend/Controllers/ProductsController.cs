@@ -53,9 +53,7 @@ namespace Shoping_Site_beckend.Controllers
                 return BadRequest("Please provide a valid product name.");
             }
 
-            var products = await _context.Products
-                .Where(p => EF.Functions.Like(p.name, $"%{name}%"))
-                .ToListAsync();
+            var products = await _context.Products.Where(p => EF.Functions.Like(p.name, $"%{name}%")).ToListAsync();
 
 
             if (products == null || !products.Any())
