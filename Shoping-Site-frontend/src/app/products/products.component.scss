@@ -47,6 +47,29 @@ button {
     transform: scale(0.95);
   }
 }
+.header {
+  display: flex;
+  justify-content: flex-end; // ממקם את הכפתור בצד ימין
+  padding: 10px;
+  background-color: #f8f8f8; // צבע רקע
+  border-bottom: 1px solid #ddd; // מסגרת תחתונה
+}
+
+.logout-button {
+  background-color: #ff6b6b; // צבע רקע של הכפתור
+  color: white; // צבע טקסט
+  border: none; // ללא מסגרת
+  padding: 10px 15px; // ריפוד
+  font-size: 16px; // גודל פונט
+  border-radius: 5px; // פינות עגולות
+  cursor: pointer; // משנה את הסמן ליד
+  transition: background-color 0.3s; // אפקט מעבר בצבע
+}
+
+.logout-button:hover {
+  background-color: #e74c3c; // צבע רקע בזמן ריחוף
+}
+
 
 // אזור חיפוש מוצרים
 .product-search {
@@ -120,4 +143,16 @@ button {
       font-weight: bold;
     }
   }
+}
+.no-results-message {
+  text-align: center; // ממרכז את ההודעה
+  margin-top: 20px; // מוסיף רווח מלמעלה
+  font-size: 18px; // גודל טקסט גדול מעט יותר
+  color: #ff6b6b; // צבע אדום עדין
+  font-weight: bold; // מדגיש את ההודעה
+  background-color: #ffe6e6; // רקע אדום בהיר
+  padding: 10px 20px; // ריפוד סביב הטקסט
+  border-radius: 8px; // פינות עגולות
+  border: 1px solid #ff6b6b; // מסגרת בצבע אדום עדין
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); // צל עדין
 }

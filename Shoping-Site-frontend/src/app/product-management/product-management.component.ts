@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import {Product} from '../Models/product';
+import { Product } from '../Models/product';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api/api.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-product-management',
@@ -11,34 +13,63 @@ import { Router } from '@angular/router';
   styleUrl: './product-management.component.scss'
 })
 export class ProductManagementComponent {
-  constructor(private router : Router) { }
-
-  products: Product[] = [
-    { id: 1, name: 'Product 1', description: 'Description 1', price: 100, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Product 2', description: 'Description 2', price: 200, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Product 3', description: 'Description 3', price: 300, imageUrl: 'https://via.placeholder.com/150' },
-    // הוסף מוצרים נוספים כאן
-  ];
 
 
-  newProduct: Product = {
-    id: 0,
-    name: '',
-    description: '',
-    price: 0,
-    imageUrl: '',
-  };
+  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
+  name = '';
+  stock = 0;
+  price = 0;
+  imageUrl = '';
+  products: Product[] = [];
+  ngOnInit(): void {
+    const lastUrl = localStorage.getItem('lastUrl');
+    if (this.authService.isLoggedIn() && lastUrl) {
+      this.router.navigate([lastUrl]);
+    } else {
+      this.router.navigate(['login']);
+    }
+    this.apiService.getProducts().subscribe((products) => {
+      this.products = products;
+    })
+  }
+
+
 
   addProduct() {
-    if (this.newProduct.name && this.newProduct.price && this.newProduct.imageUrl) {
-      this.newProduct.id = this.products.length + 1;
-      this.products.push({ ...this.newProduct });
-      this.newProduct = { id: 0, name: '', description: '', price: 0, imageUrl: '' };
+    const newProduct = {
+      name: this.name,
+      description: this.stock,
+      price: this.price,
+      imageUrl: this.imageUrl,
     }
-  }
 
-  deleteProduct(product: Product) {
-    this.products = this.products.filter((p) => p.id !== product.id);
+    if (this.name && this.price && this.imageUrl && this.stock) {
+      this.apiService.addProduct(newProduct).subscribe({
+        next: (response) => {
+          console.log("add product Success!!!", response);
+          this.ngOnInit();
+        },
+        error: (error) => {
+          console.log("Error in add product!!!", error);
+        }
+      })
+    } else {
+      console.log('You need to fill in all the details!');
+    };
+
   }
-  
+  deleteProduct(product: Product) {
+    console.log(product);
+
+    this.apiService.deleteProduct(product.id).subscribe({
+      next: (response) => {
+        console.log("delete product Success!!!", response);
+        this.ngOnInit();
+      },
+      error: (error) => {
+        console.log("Error in delete product!!!", error);
+      }
+    })
+  };
+
 }

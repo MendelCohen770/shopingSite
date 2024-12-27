@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Product } from '../Models/product'; // ייבוא המודל של המוצר
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api/api.service';
+import { AuthService } from '../services/auth/auth.service';
 
 
 @Component({
@@ -13,31 +15,50 @@ import { Router } from '@angular/router';
 })
 export class ProductsComponent {
 
-  products: Product[] = [
-    { id: 1, name: 'Product 1', description: 'Description 1', price: 100, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Product 2', description: 'Description 2', price: 200, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Product 3', description: 'Description 3', price: 300, imageUrl: 'https://via.placeholder.com/150' },
-    // הוסף מוצרים נוספים כאן
-  ];
-
+  products: Product[] = [];
   filteredProducts: Product[] = [];
   searchTerm: string = '';
+  noResults: boolean = false;
 
-  constructor(private router : Router) { }
+  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.filteredProducts = this.products; // אתחול המוצרים המוצגים
+    const lastUrl = localStorage.getItem('lastUrl');
+    if (this.authService.isLoggedIn() && lastUrl) {
+      this.router.navigate([lastUrl]);
+    } else {
+      this.router.navigate(['login']);
+    }
+    this.apiService.getProducts().subscribe((products) => {
+      this.products = products;
+      this.filteredProducts = products;
+    })
   }
   onSearchChange(): void {
     if (this.searchTerm.trim()) {
-      this.filteredProducts = this.products.filter(product =>
-        product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+      this.apiService.searchProduct(this.searchTerm).subscribe({
+        next: (products) => {
+          if (products.length === 0) {
+            this.filteredProducts = [];
+            this.noResults = true; // אין תוצאות, מציג הודעה
+          } else {
+            this.filteredProducts = products;
+            this.noResults = false; // יש תוצאות
+          }
+        },
+        error: (error) => {
+          console.error("Error fetching products", error);
+          this.filteredProducts = [];
+          this.noResults = true; // במקרה של שגיאה בשרת
+        },
+      });
     } else {
-      this.filteredProducts = this.products; // אם החיפוש ריק, מציג את כל המוצרים
+      this.filteredProducts = this.products; // אם אין חיפוש, מציג את כל המוצרים
+      this.noResults = false; // מאתחל את ההודעה
     }
   }
-  navigateToProductManagement() {
-    this.router.navigate(['/manage-products'])
-  }
+
+  
+
+
 }

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api/api.service';
+import {UserService} from '../services/user.service';
+import {AuthService} from '../services/auth/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -9,19 +13,30 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+ 
+  constructor(private router: Router, private apiService: ApiService, private userService: UserService,private authService: AuthService) {}
   username = '';
   password = '';
 
   onSubmit() {
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
-    // כאן תוכל להוסיף לוגיקה לקריאת API לאימות
-  };
-  navigateToHome(){
-    this.router.navigate(['/products']);
-  }
+    const userData = {
+      username: this.username,
+      password: this.password
+    }
+    this.apiService.login(userData).subscribe({
+      next :(response) => {
+        this.userService.setUserData(response.user);
+        this.userService.setTokenInCookie(response.token)
+        this.authService.login(response.user.role);
+        this.router.navigate(['/products']);
+      },
+      error: (error) => {
+        console.log("Error in login User!!!", error);
+      }
+  })
 
+  };
+  
   navigateToSignup() {
     this.router.navigate(['/signup']);
   }

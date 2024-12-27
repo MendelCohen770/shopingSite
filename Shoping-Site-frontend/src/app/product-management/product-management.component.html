@@ -5,34 +5,34 @@
   <form #productForm="ngForm" (ngSubmit)="addProduct()">
     <label>
       Product Name:
-      <input type="text" name="name" [(ngModel)]="newProduct.name" required />
+      <input type="text" name="name" [(ngModel)]="name" required />
     </label>
     <label>
-      Description:
-      <textarea name="description" [(ngModel)]="newProduct.description"></textarea>
+      Stock:
+      <input type="number" name="stock" [(ngModel)]="stock"/>
     </label>
     <label>
       Price:
-      <input type="number" name="price" [(ngModel)]="newProduct.price" required />
+      <input type="number" name="price" [(ngModel)]="price" required />
     </label>
     <label>
       Image URL:
-      <input type="text" name="imageUrl" [(ngModel)]="newProduct.imageUrl" required />
+      <input type="text" name="imageUrl" [(ngModel)]="imageUrl" required />
     </label>
     <button type="submit" [disabled]="!productForm.valid">Add Product</button>
   </form>
 
   <!-- רשימת מוצרים למחיקה -->
   <h3>Existing Products</h3>
-  <ul>
-    <li *ngFor="let product of products">
+  <div class="products-grid">
+    <div class="product-card" *ngFor="let product of products">
       <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
-      <div>
+      <div class="product-info">
         <h4>{{ product.name }}</h4>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price | currency }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <p>Price: {{ product.price | currency:'ILS' }}</p>
       </div>
-      <button (click)="deleteProduct(product)">Delete</button>
-    </li>
-  </ul>
+      <button class="delete-button" (click)="deleteProduct(product)">Delete</button>
+    </div>
+  </div>
 </div>

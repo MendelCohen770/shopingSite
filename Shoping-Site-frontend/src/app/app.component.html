@@ -1,6 +1,8 @@
-<!-- כותרת וניווט -->
 <header>
-    <h1>Welcome to my Shopping Site</h1>
+  <h1>My Shopping Site</h1>
+  <button *ngIf="showHome" (click)="Home()">Home</button>
+  <button *ngIf="showProductManagement" (click)="navigateToProductManagement()">product-management</button>
+  <button *ngIf="showLogout" (click)="logout()">Logout</button>
 </header>
 
 <!-- תוכן דינמי -->
