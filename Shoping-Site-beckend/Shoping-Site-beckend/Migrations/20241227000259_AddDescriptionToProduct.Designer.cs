@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shoping_Site_beckend.Models;
 
@@ -10,9 +11,11 @@ using Shoping_Site_beckend.Models;
 namespace Shoping_Site_beckend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241227000259_AddDescriptionToProduct")]
+    partial class AddDescriptionToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +51,15 @@ namespace Shoping_Site_beckend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("password")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
                         .HasColumnType("longtext");
 
                     b.Property<string>("username")
@@ -71,3 +74,4 @@ namespace Shoping_Site_beckend.Migrations
         }
     }
 }
+

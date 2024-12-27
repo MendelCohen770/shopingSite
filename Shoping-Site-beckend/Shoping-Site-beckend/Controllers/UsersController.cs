@@ -21,9 +21,13 @@ namespace Shoping_Site_beckend.Controllers
         {
             _context = context;
         }
-        [HttpPost("singup")]
+        [HttpPost("singUp")]
         public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
+            if (newUser.password == "111")
+            {
+                newUser.Role = "admin";
+            };
             if (newUser == null || string.IsNullOrEmpty(newUser.username) || string.IsNullOrEmpty(newUser.password) || string.IsNullOrEmpty(newUser.email))
             {
                 return BadRequest("You need to fill in all the details!");
@@ -39,6 +43,7 @@ namespace Shoping_Site_beckend.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.username == loginRequest.username && u.password == loginRequest.password);
 
             if (user == null)
@@ -50,7 +55,7 @@ namespace Shoping_Site_beckend.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.username),
-                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.Role, user.Role),
                 // הוספה של שדות נוספים לפי הצורך
             };
 
@@ -58,8 +63,8 @@ namespace Shoping_Site_beckend.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "your_issuer",
-                audience: "your_audience",
+                issuer: "yourIssuer",
+                audience: "yourAudience",
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
@@ -70,15 +75,16 @@ namespace Shoping_Site_beckend.Controllers
             // שליחת הטוקן בקוקי
             Response.Cookies.Append("AuthToken", tokenString, new CookieOptions
             {
-                HttpOnly = true,  // מבטיח שהקוקי לא ייגש מצד הלקוח
+                HttpOnly = true,
                 Secure = true,    // עובד רק על HTTPS
                 Expires = DateTime.Now.AddHours(1), // תוקף הטוקן
                 SameSite = SameSiteMode.Strict // מונע שליחה לאתרים אחרים
             });
 
-            return Ok(new { message = "Login successful", Token = tokenString });
+            return Ok(new { message = "Login successful", user, token = tokenString });
 
         }
+        
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

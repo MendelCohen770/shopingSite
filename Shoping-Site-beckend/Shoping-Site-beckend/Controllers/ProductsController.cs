@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shoping_Site_beckend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Shoping_Site_beckend.Controllers
@@ -21,10 +22,11 @@ namespace Shoping_Site_beckend.Controllers
             var products = await _context.Products.ToListAsync();
             return Ok(products);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost("create_product")]
         public async Task<IActionResult> CreateProduct([FromBody] Product newProduct)
         {
-            if (newProduct == null || string.IsNullOrEmpty(newProduct.name) || newProduct.stock < 0 || newProduct.price <= 0)
+            if (newProduct == null || string.IsNullOrEmpty(newProduct.name) || newProduct.stock <= 0 || newProduct.price <= 0)
             {
                 return BadRequest("You need to fill in all the details!");
             }
@@ -32,6 +34,7 @@ namespace Shoping_Site_beckend.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { message = "Product created successfully!", productId = newProduct.id });
         }
+        [Authorize(Roles = "admin")]
         [HttpGet("delete_product/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -43,9 +46,9 @@ namespace Shoping_Site_beckend.Controllers
             }
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return Ok("Product deleted successfully!");
+            return Ok(new { message = "Product deleted successfully!" });
         }
-        [HttpGet("sherch_product/{name}")]
+        [HttpGet("search_product/{name}")]
         public async Task<IActionResult> SherchtProduct(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
