@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Product } from '../Models/product';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { AuthService } from '../services/auth/auth.service';
 
@@ -15,39 +15,39 @@ import { AuthService } from '../services/auth/auth.service';
 export class ProductManagementComponent {
 
 
-  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
+  constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private route: ActivatedRoute ) { }
   name = '';
   stock = 0;
   price = 0;
   imageUrl = '';
   products: Product[] = [];
   ngOnInit(): void {
+    const productsResolver = this.route.snapshot.data['products'];
+    if(productsResolver){
+      this.products = productsResolver;
+    };
+
     const lastUrl = localStorage.getItem('lastUrl');
     if (this.authService.isLoggedIn() && lastUrl) {
       this.router.navigate([lastUrl]);
     } else {
       this.router.navigate(['login']);
     }
-    this.apiService.getProducts().subscribe((products) => {
-      this.products = products;
-    })
   }
-
 
 
   addProduct() {
     const newProduct = {
       name: this.name,
-      description: this.stock,
+      stock: this.stock,
       price: this.price,
       imageUrl: this.imageUrl,
     }
 
     if (this.name && this.price && this.imageUrl && this.stock) {
       this.apiService.addProduct(newProduct).subscribe({
-        next: (response) => {
-          console.log("add product Success!!!", response);
-          this.ngOnInit();
+        next: (addedProduct) => {
+          console.log("add product Success!!!");
         },
         error: (error) => {
           console.log("Error in add product!!!", error);
@@ -56,7 +56,13 @@ export class ProductManagementComponent {
     } else {
       console.log('You need to fill in all the details!');
     };
-
+    this.apiService.getProducts().subscribe((products) => {
+      this.products = products;
+    });
+    this.name = '';
+    this.stock = 0;
+    this.price = 0;
+    this.imageUrl = '';
   }
   deleteProduct(product: Product) {
     console.log(product);

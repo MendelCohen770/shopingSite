@@ -3,6 +3,7 @@ import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ApiService } from './services/api/api.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
+import { flatMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent {
   showLogout: boolean = false;
   showHome: boolean = false;
   showProductManagement: boolean = false;
+  showUsersStatus: boolean = false;
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
     this.router.events.subscribe(
@@ -23,13 +25,11 @@ export class AppComponent {
         localStorage.setItem('lastUrl', event.urlAfterRedirects); } 
       });
     this.router.events.subscribe(() => {
-      const currentUrlForLogout = this.router.url;
-      const currentUrlForHome = this.router.url;
-      const currentUrlForProductManagement = this.router.url;
       const savedRole = localStorage.getItem('userRole');
-      this.showLogout = currentUrlForLogout === '/products' || currentUrlForLogout === '/manage-products';
-      this.showHome = currentUrlForHome === '/manage-products';
-      this.showProductManagement = currentUrlForProductManagement === '/products' && savedRole === 'admin'
+      this.showLogout = this.router.url === '/products' || this.router.url === '/manage-products' || this.router.url === '/usersStatus';
+      this.showHome = this.router.url === '/manage-products' || this.router.url === '/usersStatus';
+      this.showProductManagement = (this.router.url === '/products' || this.router.url === '/usersStatus') && savedRole === 'admin';
+      this.showUsersStatus = (this.router.url === '/products' || this.router.url === '/manage-products') && savedRole === 'admin';
     });
    };
 
@@ -46,5 +46,8 @@ export class AppComponent {
    navigateToProductManagement() {
     this.router.navigate(['/manage-products'])
   };
+  navigateToUsersStatus(){
+    this.router.navigate(['/usersStatus'])
+  }
 
 }
