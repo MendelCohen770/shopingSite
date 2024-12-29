@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Shoping-Site-beckend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32b814ad120549a899c9b5cd16259fcd9a6f75ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68813f86a9adfd39b10461b3809c0874abec13e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Shoping-Site-beckend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Shoping-Site-beckend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
