@@ -17,12 +17,12 @@ export class SingUpComponent {
   password = '';
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
+
   ngOnInit() { 
-    if (this.authService.isLoggedIn()) {
        const lastUrl = localStorage.getItem('lastUrl'); 
-       if (lastUrl) { this.router.navigate([lastUrl]); 
+       if (lastUrl) {
+         this.router.navigate([lastUrl]); 
        } 
-      }
      }
   onSubmit() {
     const userData = {
@@ -31,7 +31,7 @@ export class SingUpComponent {
       password: this.password
     }
     this.apiService.singUp(userData).subscribe({
-      next :(response) => {
+      next :() => {
         console.log("singUp User Success!!!");
         this.router.navigate(['/login']);
       },

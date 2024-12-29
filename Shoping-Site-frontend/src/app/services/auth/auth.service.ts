@@ -1,42 +1,71 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
+import { UserService } from '../user.service';
+import { User } from '../../Models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly STORAGE_KEY_LOGGED_IN = 'isLoggedIn';
-  private readonly STORAGE_KEY_ROLE = 'userRole';
-  constructor() {
+
+  private STORAGE_KEY_USER = 'user';
+  private user: User = {
+    id: 0,
+    username: '',
+    email: '',
+    password: '',
+    role: '',
+    isConnected: false
+  };
+
+  constructor(private userService: UserService) {
     this.loadLoginState();
   }
-  private loggedIn: boolean = false;
-  private role: string = 'user';
+  
   isLoggedIn(): boolean {
-    return this.loggedIn;
+    const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
+    if(userOnString){
+      this.user = JSON.parse(userOnString);
+    }
+    return this.user.isConnected;
   }
 
   getRole(): string {
-    return this.role;
+    const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
+    if(userOnString){
+      this.user = JSON.parse(userOnString);
+    }
+    return this.user.role;
   }
 
-  login(role: string) {
-    this.loggedIn = true;
-    this.role = role;
-    localStorage.setItem(this.STORAGE_KEY_LOGGED_IN, 'true');
-    localStorage.setItem(this.STORAGE_KEY_ROLE, role);
+
+  login(userData: any) {
+    const user: User = {...userData, isConnected: true};
+    localStorage.setItem(this.STORAGE_KEY_USER, JSON.stringify(user));
   }
 
   logout() {
-    this.loggedIn = false;
-    this.role = 'user';
-    localStorage.removeItem(this.STORAGE_KEY_LOGGED_IN);
-    localStorage.removeItem(this.STORAGE_KEY_ROLE);
-  }
+    const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
+    if(userOnString){
+      this.user = JSON.parse(userOnString);
+      this.user.isConnected = false;
+    }
+    localStorage.removeItem(this.STORAGE_KEY_USER);
+    this.userService.deleteTokenFromCookie();
+  };
+
   private loadLoginState() {
-    const savedState = localStorage.getItem(this.STORAGE_KEY_LOGGED_IN);
-    const savedRole = localStorage.getItem(this.STORAGE_KEY_ROLE);
-    this.loggedIn = savedState === 'true';
-    this.role = savedRole || 'user';
+    const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
+    if(userOnString){
+      this.user = JSON.parse(userOnString); 
+      if (this.user.isConnected) {
+        console.log('User is logged in:', this.user.username);
+      } else {
+        console.log('User is not logged in.');
+      }
+    } else {
+      console.log('No user data found in local storage.');
+      this.user = { id: 0, username: '', email: '',password: '', role: '', isConnected: false };
+    }
   }
 }

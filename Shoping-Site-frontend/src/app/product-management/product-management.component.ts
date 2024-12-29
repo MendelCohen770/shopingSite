@@ -14,19 +14,19 @@ import { AuthService } from '../services/auth/auth.service';
 })
 export class ProductManagementComponent {
 
+  name: string = '';
+  stock: number = 0;
+  price: number = 0;
+  imageUrl: string = '';
+  products: Product[] = [];
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private route: ActivatedRoute ) { }
-  name = '';
-  stock = 0;
-  price = 0;
-  imageUrl = '';
-  products: Product[] = [];
+  
   ngOnInit(): void {
     const productsResolver = this.route.snapshot.data['products'];
     if(productsResolver){
       this.products = productsResolver;
     };
-
     const lastUrl = localStorage.getItem('lastUrl');
     if (this.authService.isLoggedIn() && lastUrl) {
       this.router.navigate([lastUrl]);
@@ -46,7 +46,7 @@ export class ProductManagementComponent {
 
     if (this.name && this.price && this.imageUrl && this.stock) {
       this.apiService.addProduct(newProduct).subscribe({
-        next: (addedProduct) => {
+        next: () => {
           console.log("add product Success!!!");
         },
         error: (error) => {
@@ -65,12 +65,12 @@ export class ProductManagementComponent {
     this.imageUrl = '';
   }
   deleteProduct(product: Product) {
-    console.log(product);
-
     this.apiService.deleteProduct(product.id).subscribe({
       next: (response) => {
         console.log("delete product Success!!!", response);
-        this.ngOnInit();
+        this.apiService.getProducts().subscribe((products) => {
+          this.products = products;
+        });
       },
       error: (error) => {
         console.log("Error in delete product!!!", error);

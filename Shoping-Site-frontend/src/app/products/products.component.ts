@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Product } from '../Models/product'; // ייבוא המודל של המוצר
+import { Product } from '../Models/product'; 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,7 +15,6 @@ import { AuthService } from '../services/auth/auth.service';
 })
 export class ProductsComponent {
 
-  user: any;
   products: Product[] = [];
   filteredProducts: Product[] = [];
   searchTerm: string = '';
@@ -24,13 +23,12 @@ export class ProductsComponent {
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private route:  ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.user = this.route.snapshot.data['user'];
+    this.route.snapshot.data['user'];
     const productsResolver = this.route.snapshot.data['products'];
     if(productsResolver){
       this.products = productsResolver;
       this.filteredProducts = productsResolver;
-    }
-
+    };
     const lastUrl = localStorage.getItem('lastUrl');
     if (this.authService.isLoggedIn() && lastUrl) {
       this.router.navigate([lastUrl]);
@@ -44,25 +42,21 @@ export class ProductsComponent {
         next: (products) => {
           if (products.length === 0) {
             this.filteredProducts = [];
-            this.noResults = true; // אין תוצאות, מציג הודעה
+            this.noResults = true;
           } else {
             this.filteredProducts = products;
-            this.noResults = false; // יש תוצאות
+            this.noResults = false; 
           }
         },
         error: (error) => {
           console.error("Error fetching products", error);
           this.filteredProducts = [];
-          this.noResults = true; // במקרה של שגיאה בשרת
+          this.noResults = true;
         },
       });
     } else {
-      this.filteredProducts = this.products; // אם אין חיפוש, מציג את כל המוצרים
-      this.noResults = false; // מאתחל את ההודעה
+      this.filteredProducts = this.products;
+      this.noResults = false;
     }
   }
-
-  
-
-
 }

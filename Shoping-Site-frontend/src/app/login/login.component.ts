@@ -14,30 +14,29 @@ import {AuthService} from '../services/auth/auth.service';
 })
 export class LoginComponent {
  
-  constructor(private router: Router, private apiService: ApiService, private userService: UserService,private authService: AuthService) {}
   username = '';
   password = '';
 
+  constructor(private router: Router, private apiService: ApiService, private userService: UserService,private authService: AuthService) {}
+  
   onSubmit() {
     const userData = {
       username: this.username,
       password: this.password
-    }
+    };
     this.apiService.login(userData).subscribe({
       next :(response) => {
-        this.userService.setUserData(response.user);
         this.userService.setTokenInCookie(response.token)
-        this.authService.login(response.user.role);
+        this.authService.login(response.user);
         this.router.navigate(['/products']);
       },
       error: (error) => {
         console.log("Error in login User!!!", error);
       }
-  })
-
+  });
   };
   
   navigateToSignup() {
     this.router.navigate(['/signup']);
-  }
+  };
 }

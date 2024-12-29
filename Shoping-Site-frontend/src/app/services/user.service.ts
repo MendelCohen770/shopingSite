@@ -5,18 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  private userData: any = null;
 
-  setUserData(data: any): void {
-    this.userData = data;
-  }
-  // פונקציה לשמירה של טוקן בקוקי
   setTokenInCookie(token: string) {
     const expires = new Date();
-    expires.setHours(expires.getHours() + 1); // הגדרת תוקף של 1 שעה
+    expires.setHours(expires.getHours() + 3);
     document.cookie = `MyToken=${token};expires=${expires.toUTCString()};path=/;Secure;SameSite=Strict;`;
-  }
-  // פונקציה לקרוא את הקוקי
+  };
+
   getTokenFromCookie(): string | null {
     const name = "MyToken=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -31,14 +26,9 @@ export class UserService {
       }
     }
     return null;
-  }
-
-  getUserData(): any {
-    return this.userData;
-  }
-
-  clearUserData(): void {
-    this.userData = null;
-  }
+  };
+  deleteTokenFromCookie(): void {
+    document.cookie = "MyToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+  };
 
 }

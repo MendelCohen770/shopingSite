@@ -20,8 +20,6 @@ export class UsersStatusComponent {
     const usersResolver = this.route.snapshot.data['allUsersResolver'];
     if(usersResolver){
       this.usersStatus = usersResolver; 
-      console.log(this.usersStatus);
-      
     }
     this.signalRService.getUsersStatus().subscribe( (users) => {
       this.usersStatus = this.usersStatus.map<User>( (user) => {

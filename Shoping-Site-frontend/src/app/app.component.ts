@@ -3,7 +3,6 @@ import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ApiService } from './services/api/api.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
-import { flatMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,7 @@ import { flatMap } from 'rxjs';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Shoping-Site';
+  title = 'Shopping-Site';
 
   showLogout: boolean = false;
   showHome: boolean = false;
@@ -21,33 +20,36 @@ export class AppComponent {
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
     this.router.events.subscribe(
-      event => { if (event instanceof NavigationEnd) { 
-        localStorage.setItem('lastUrl', event.urlAfterRedirects); } 
+      event => {
+        if (event instanceof NavigationEnd) {
+          localStorage.setItem('lastUrl', event.urlAfterRedirects);
+        }
       });
+
     this.router.events.subscribe(() => {
-      const savedRole = localStorage.getItem('userRole');
+      const role = this.authService.getRole();
       this.showLogout = this.router.url === '/products' || this.router.url === '/manage-products' || this.router.url === '/usersStatus';
       this.showHome = this.router.url === '/manage-products' || this.router.url === '/usersStatus';
-      this.showProductManagement = (this.router.url === '/products' || this.router.url === '/usersStatus') && savedRole === 'admin';
-      this.showUsersStatus = (this.router.url === '/products' || this.router.url === '/manage-products') && savedRole === 'admin';
+      this.showProductManagement = (this.router.url === '/products' || this.router.url === '/usersStatus') && role === 'admin';
+      this.showUsersStatus = (this.router.url === '/products' || this.router.url === '/manage-products') && role === 'admin';
     });
-   };
+  };
 
-   logout(): void {
-    this.apiService.logout().subscribe(()=>{
+  logout(): void {
+    this.apiService.logout().subscribe(() => {
       console.log("logged out");
+      this.authService.logout();
+      this.router.navigate(['']);
     });
-    this.authService.logout();
-    this.router.navigate(['']);
-   }
-   Home(): void {
+  };
+  Home(): void {
     this.router.navigate(['/products'])
-   };
-   navigateToProductManagement() {
+  };
+  navigateToProductManagement() {
     this.router.navigate(['/manage-products'])
   };
-  navigateToUsersStatus(){
+  navigateToUsersStatus() {
     this.router.navigate(['/usersStatus'])
-  }
+  };
 
 }
