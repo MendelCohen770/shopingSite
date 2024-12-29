@@ -7,6 +7,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using Shoping_Site_beckend.Hubs;
 
 
 namespace Shoping_Site_beckend.Controllers
@@ -16,11 +20,33 @@ namespace Shoping_Site_beckend.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IUserConnectionService _userConnectionService;
 
-        public UsersController(AppDbContext context)
+        public UsersController(AppDbContext context, IUserConnectionService userConnectionService)
         {
             _context = context;
+            _userConnectionService = userConnectionService;
         }
+        [Authorize(Roles = "admin")]
+        [HttpGet("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();  // מבצע קריאה למסד הנתונים
+            var connectedUsers = _userConnectionService.GetAllUsers();  // מקבל את כל המשתמשים המחוברים
+
+            // מבצע חיבור של המידע על המשתמשים עם מידע החיבור
+            var userInfos = users.Select(u => new UserInfo
+            {
+                id = u.id,
+                username = u.username,
+                email = u.email,
+                Role = u.Role,
+                isConnected = connectedUsers.Any(c => c.username == u.username && c.isConnected)  // בדיקה אם המשתמש מחובר
+            }).ToList();
+
+            return Ok(userInfos);
+        }
+
         [HttpPost("singUp")]
         public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
