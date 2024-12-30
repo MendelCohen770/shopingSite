@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../services/auth/auth.service';
+import { ToastService } from '../services/toast/toast.service';
 
 @Component({
   selector: 'app-sing-up',
@@ -16,7 +16,9 @@ export class SingUpComponent {
   email = '';
   password = '';
 
-  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
+  constructor(private router: Router,
+     private apiService: ApiService,
+      private toastService: ToastService) { }
 
   ngOnInit() { 
        const lastUrl = localStorage.getItem('lastUrl'); 
@@ -32,11 +34,12 @@ export class SingUpComponent {
     }
     this.apiService.singUp(userData).subscribe({
       next :() => {
-        console.log("singUp User Success!!!");
+        this.toastService.success("singUp User Success!!!");
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.log("Error in singUp User!!!", error);
+        this.toastService.error("Error in singUp User!!!");
+        console.log(error);
       }
   })
   };

@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ApiService } from './services/api/api.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
+import { ToastService } from './services/toast/toast.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule,MatTooltipModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -18,7 +21,10 @@ export class AppComponent {
   showProductManagement: boolean = false;
   showUsersStatus: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
+  constructor(private router: Router,
+     private apiService: ApiService,
+      private authService: AuthService,
+       private toastService: ToastService,) {
     this.router.events.subscribe(
       event => {
         if (event instanceof NavigationEnd) {
@@ -34,12 +40,20 @@ export class AppComponent {
       this.showUsersStatus = (this.router.url === '/products' || this.router.url === '/manage-products') && role === 'admin';
     });
   };
-
+ 
   logout(): void {
-    this.apiService.logout().subscribe(() => {
-      console.log("logged out");
+    this.apiService.logout().subscribe({
+      next: () => {
       this.authService.logout();
+      this.toastService.success('logout successful');
       this.router.navigate(['']);
+      }, error: (error) =>  {
+        this.toastService.error('error to logout');
+        console.log(error);
+      },
+      complete: () => {
+        this.router.navigate(['']);
+      }
     });
   };
   Home(): void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../../Models/user';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,24 +12,52 @@ export class SignalRService {
   private hubConnection: HubConnection;
   private userStatusSubject = new BehaviorSubject<any[]>([]);
 
-  constructor() {
-    this.hubConnection = new HubConnectionBuilder().withUrl('http://localhost:5181/connectionHub').build();
+  constructor(private toastService: ToastService) {
+    this.hubConnection = new HubConnectionBuilder().withUrl('http://localhost:5181/connectionHub').withAutomaticReconnect().build();
 
-    this.startConnection();
     this.addListeners();
+
    }
 
-   private startConnection(): void {
-    this.hubConnection.start().catch(err => console.log('Error to start connection', err));
-   };
-   private addListeners(): void {
+   public startConnection(): void {
+    this.hubConnection
+      .start()
+      .then()
+      .catch(err => {
+        this.toastService.error('Failed to start SignalR connection.');
+        console.error(err);
+      });
+  }
+
+  public stopConnection(): void {
+    this.hubConnection
+      .stop()
+      .then()
+      .catch(err => {
+        this.toastService.error('Failed to stop SignalR connection.');
+        console.log(err);
+      });
+  }
+
+  private addListeners(): void {
     this.hubConnection.on('ReceiveUserStatus', (users: User[]) => {
       this.userStatusSubject.next(users);
     });
-   };
+
   
-  public getUsersStatus(): Observable<User[]>{
+    this.hubConnection.on('ReceiveAdminNotification', (message: string) => {
+      const userString = localStorage.getItem('user');
+      if (userString) {
+        const user = JSON.parse(userString);
+        if (user.role === 'admin') {
+          this.toastService.info(message);
+        }
+      }
+    });
+  }
+
+  public getUsersStatus(): Observable<User[]> {
     return this.userStatusSubject.asObservable();
-  };
+  }
 
 }
