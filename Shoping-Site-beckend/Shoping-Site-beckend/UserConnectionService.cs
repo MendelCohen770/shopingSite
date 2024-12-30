@@ -7,6 +7,8 @@ public interface IUserConnectionService
 {
     void AddUser(string connectionId, UserInfo userInfo);
     void RemoveUser(string connectionId);
+    UserInfo GetUserByConnectionId(string connectionId);
+    string GetConnectionIdByUserId(int userId);
     List<UserInfo> GetAllUsers();
     UserInfo GetUser(string connectionId);
 }
@@ -23,6 +25,18 @@ public class UserConnectionService : IUserConnectionService
     public void RemoveUser(string connectionId)
     {
         _connectedUsers.TryRemove(connectionId, out _);
+    }
+
+    public UserInfo GetUserByConnectionId(string connectionId)
+    {
+        _connectedUsers.TryGetValue(connectionId, out var userInfo);
+        return userInfo;  // ????? ?? ?????? ?? ????, ???? ????? null
+    }
+
+    public string GetConnectionIdByUserId(int userId)
+    {
+        // ???? ?? ?????? ?? ?????? ??? ?-UserId
+        return _connectedUsers.FirstOrDefault(x => x.Value.id == userId).Key;
     }
 
     public List<UserInfo> GetAllUsers()

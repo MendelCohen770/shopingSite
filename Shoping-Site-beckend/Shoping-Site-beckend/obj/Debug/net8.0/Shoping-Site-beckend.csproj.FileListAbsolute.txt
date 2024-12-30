@@ -118,3 +118,4 @@ C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Si
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Connections.Client.dll
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.dll
 C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\bin\Debug\net8.0\BCrypt.Net-Next.dll

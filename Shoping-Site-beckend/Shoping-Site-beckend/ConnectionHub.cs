@@ -19,24 +19,39 @@ namespace Shoping_Site_beckend.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var userName = Context.User?.Identity?.Name ?? "Unknown";
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.username == userName);
+            var userName = Context.User?.Identity?.Name;
 
-            if (user != null)
+            if (!string.IsNullOrEmpty(userName))
             {
-                var userInfo = new UserInfo
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.username == userName);
+
+                if (user != null)
                 {
-                    id = user.id,
-                    username = user.username,
-                    email = user.email,
-                    Role = user.Role,
-                    isConnected = true,
-                };
+                    var userInfo = new UserInfo
+                    {
+                        id = user.id,
+                        username = user.username,
+                        email = user.email,
+                        password = "***",
+                        Role = user.Role,
+                        isConnected = true
+                    };
 
-                _userConnectionService.AddUser(Context.ConnectionId, userInfo);
+                    _userConnectionService.AddUser(Context.ConnectionId, userInfo);
 
-                // עדכון המנהל ברשימת המשתמשים המחוברים
-                await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
+                    var adminUsers = await _context.Users.Where(u => u.Role == "admin").ToListAsync();
+                    foreach (var admin in adminUsers)
+                    {
+                        var connectionId = _userConnectionService.GetConnectionIdByUserId(admin.id);
+                        if (connectionId != null)
+                        {
+                            await Clients.Client(connectionId).SendAsync("ReceiveAdminNotification", $"{user.username} has connected.");
+                        }
+                    }
+
+                    // עדכון לכל המשתמשים לגבי מצב החיבור החדש
+                    await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
+                }
             }
 
             await base.OnConnectedAsync();
@@ -44,10 +59,34 @@ namespace Shoping_Site_beckend.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            _userConnectionService.RemoveUser(Context.ConnectionId);
+            var userName = Context.User?.Identity?.Name;
 
-            // עדכון המנהל ברשימת המשתמשים המחוברים
-            await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
+            if (!string.IsNullOrEmpty(userName))
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.username == userName);
+
+                if (user != null)
+                {
+                    var userInfo = _userConnectionService.GetUserByConnectionId(Context.ConnectionId);
+                    if (userInfo != null)
+                    {
+                        _userConnectionService.RemoveUser(Context.ConnectionId);
+
+                        var adminUsers = await _context.Users.Where(u => u.Role == "admin").ToListAsync();
+                        foreach (var admin in adminUsers)
+                        {
+                            var connectionId = _userConnectionService.GetConnectionIdByUserId(admin.id);
+                            if (connectionId != null)
+                            {
+                                await Clients.Client(connectionId).SendAsync("ReceiveAdminNotification", $"{user.username} has disconnected.");
+                            }
+                        }
+
+                        // עדכון לכל המשתמשים לגבי ההתנתקות
+                        await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
+                    }
+                }
+            }
 
             await base.OnDisconnectedAsync(exception);
         }

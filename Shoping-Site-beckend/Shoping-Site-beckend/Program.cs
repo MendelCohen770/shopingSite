@@ -12,10 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// הוספת DbContext עם החיבור ל-MySQL
+// החיבור לקובץ AddDbContext שמחובר ל MySQL 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                     new MySqlServerVersion(new Version(8, 0, 32)))); // עדכון לגרסה שלך
+                     new MySqlServerVersion(new Version(8, 0, 32))));
 
 // קונפיגורציה של Authentication ו-JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                 if (string.IsNullOrEmpty(token))
                 {
-                    token = context.Request.Cookies["AuthToken"]; // שם ה-Cookie שמכיל את הטוקן
+                    token = context.Request.Cookies["AuthToken"]; 
                 }
 
                 context.Token = token;

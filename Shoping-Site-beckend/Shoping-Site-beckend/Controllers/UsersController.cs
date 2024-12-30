@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using Shoping_Site_beckend.Hubs;
+using BCrypt.Net;
 
 
 namespace Shoping_Site_beckend.Controllers
@@ -40,6 +41,7 @@ namespace Shoping_Site_beckend.Controllers
                 id = u.id,
                 username = u.username,
                 email = u.email,
+                password = "***",
                 Role = u.Role,
                 isConnected = connectedUsers.Any(c => c.username == u.username && c.isConnected)  // בדיקה אם המשתמש מחובר
             }).ToList();
@@ -50,14 +52,23 @@ namespace Shoping_Site_beckend.Controllers
         [HttpPost("singUp")]
         public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
-            if (newUser.password == "111")
-            {
-                newUser.Role = "admin";
-            };
             if (newUser == null || string.IsNullOrEmpty(newUser.username) || string.IsNullOrEmpty(newUser.password) || string.IsNullOrEmpty(newUser.email))
             {
                 return BadRequest("You need to fill in all the details!");
             }
+
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.username == newUser.username);
+            if (existingUser != null)
+            {
+                return BadRequest("Username already exists!");
+            }
+
+            if (newUser.password == "111")
+            {
+                newUser.Role = "admin";
+            };
+
+            newUser.password = BCrypt.Net.BCrypt.HashPassword(newUser.password);
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
             return Ok(new { message = "User created successfully!", userId = newUser.id });
@@ -70,11 +81,16 @@ namespace Shoping_Site_beckend.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.username == loginRequest.username && u.password == loginRequest.password);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.username == loginRequest.username);
 
             if (user == null)
             {
                 return Unauthorized("User Not Found!");
+            }
+            bool isValid = BCrypt.Net.BCrypt.Verify(loginRequest.password, user.password);
+            if(!isValid)
+            {
+                return Unauthorized("Invalid Password!");
             }
 
             // יצירת טוקן JWT
@@ -82,7 +98,6 @@ namespace Shoping_Site_beckend.Controllers
             {
                 new Claim(ClaimTypes.Name, user.username),
                 new Claim(ClaimTypes.Role, user.Role),
-                // הוספה של שדות נוספים לפי הצורך
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -92,7 +107,7 @@ namespace Shoping_Site_beckend.Controllers
                 issuer: "yourIssuer",
                 audience: "yourAudience",
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds
             );
 
@@ -103,9 +118,11 @@ namespace Shoping_Site_beckend.Controllers
             {
                 HttpOnly = true,
                 Secure = true,    // עובד רק על HTTPS
-                Expires = DateTime.Now.AddHours(1), // תוקף הטוקן
+                Expires = DateTime.Now.AddHours(3), // תוקף הטוקן
                 SameSite = SameSiteMode.Strict // מונע שליחה לאתרים אחרים
             });
+
+            user.password = "***";
 
             return Ok(new { message = "Login successful", user, token = tokenString });
 
