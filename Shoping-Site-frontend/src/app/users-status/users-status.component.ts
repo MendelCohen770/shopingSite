@@ -27,8 +27,9 @@ export class UsersStatusComponent implements OnInit, OnDestroy{
         const updatedUser = users.find(u => u.username === user.username)
         if (updatedUser) {
           return { ...user, isConnected: updatedUser.isConnected };
-        }
-        return user; 
+        }else{
+          return {...user, isConnected: false};
+        } 
       })      
     });
   }

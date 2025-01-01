@@ -7,6 +7,7 @@ import { ApiService } from '../services/api/api.service';
 import { AuthService } from '../services/auth/auth.service';
 import { SignalRService } from '../services/signal-r/signal-r.service';
 import { ToastService } from '../services/toast/toast.service';
+import { authGuard } from '../guard/guardIsLoggedIn/auth.guard';
 
 @Component({
   selector: 'app-products',
@@ -38,6 +39,7 @@ export class ProductsComponent implements OnInit, OnDestroy{
       this.filteredProducts = productsResolver;
     };
     this.signalRService.startConnection();
+    
     const lastUrl = localStorage.getItem('lastUrl');
     if (this.authService.isLoggedIn() && lastUrl) {
       this.router.navigate([lastUrl]);
