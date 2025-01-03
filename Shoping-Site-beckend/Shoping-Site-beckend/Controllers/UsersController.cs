@@ -116,7 +116,7 @@ namespace Shoping_Site_beckend.Controllers
             // שליחת הטוקן בקוקי
             Response.Cookies.Append("AuthToken", tokenString, new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = true,    // עובד רק על HTTPS
                 Expires = DateTime.Now.AddHours(3), // תוקף הטוקן
                 SameSite = SameSiteMode.Strict // מונע שליחה לאתרים אחרים
