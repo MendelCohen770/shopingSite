@@ -20,12 +20,6 @@ export class SingUpComponent {
      private apiService: ApiService,
       private toastService: ToastService) { }
 
-  ngOnInit() { 
-       const lastUrl = localStorage.getItem('lastUrl'); 
-       if (lastUrl) {
-         this.router.navigate([lastUrl]); 
-       } 
-     }
   onSubmit() {
     const userData = {
       username: this.username,

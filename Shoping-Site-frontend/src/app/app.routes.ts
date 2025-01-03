@@ -1,20 +1,28 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
-import {ProductsComponent} from './products/products.component'
+import { ProductsComponent } from './products/products.component'
 import { ProductManagementComponent } from './product-management/product-management.component';
-import {authGuard} from './guard/guardIsLoggedIn/auth.guard';
-import {adminGuard} from './guard/guardAdmin/admin.guard'
-import { userResolver } from './resolver/userResolver/user.resolver';
-import { productsResolver } from './resolver/productsResolver/products.resolver';
+import { authGuard } from './guard/auth.guard';
+import { userResolver } from './resolver/user.resolver';
 import { UsersStatusComponent } from './users-status/users-status.component';
-import { allUsersResolver } from './resolver/allUsersResolver/allUsers.resolver';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
+
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SingUpComponent },
-      { path: 'products', component: ProductsComponent, canActivate: [authGuard] , resolve: { user: userResolver, products: productsResolver}},
-      { path: 'manage-products', component: ProductManagementComponent, canActivate: [authGuard, adminGuard], resolve: {products: productsResolver} },
-      {path: 'usersStatus', component: UsersStatusComponent, canActivate: [authGuard, adminGuard], resolve: {allUsersResolver} },
+
+      {
+            path: 'home',
+            component: HomeComponent,
+            canActivate: [authGuard],
+            resolve: { user: userResolver},
+            children: [
+                  { path: 'products', component: ProductsComponent, },
+                  { path: 'manage-products', component: ProductManagementComponent, data: { role: 'admin' }},
+                  { path: 'usersStatus', component: UsersStatusComponent, data: { role: 'admin' }},
+            ]
+      },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];

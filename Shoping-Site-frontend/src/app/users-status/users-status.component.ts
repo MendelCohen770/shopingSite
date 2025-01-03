@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SignalRService } from '../services/signal-r/signal-r.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../Models/user';
-import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../services/api/api.service';
+
 
 @Component({
   selector: 'app-users-status',
@@ -10,33 +11,29 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './users-status.component.html',
   styleUrl: './users-status.component.scss'
 })
-export class UsersStatusComponent implements OnInit, OnDestroy{
- 
+export class UsersStatusComponent implements OnInit {
+
   usersStatus: User[] = [];
 
-  constructor(private signalRService: SignalRService, private route: ActivatedRoute) {}
+  constructor(private signalRService: SignalRService, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    const usersResolver = this.route.snapshot.data['allUsersResolver'];
-    if(usersResolver){
-      this.usersStatus = usersResolver; 
-    }
-    this.signalRService.startConnection();
-    this.signalRService.getUsersStatus().subscribe( (users) => {
-      this.usersStatus = this.usersStatus.map<User>( (user) => {
+
+    this.apiService.getAllUsers().subscribe(users => {
+      this.usersStatus = users;
+    });
+    this.signalRService.getUsersStatus().subscribe((users) => {
+      this.usersStatus = this.usersStatus.map<User>((user) => {
         const updatedUser = users.find(u => u.username === user.username)
         if (updatedUser) {
           return { ...user, isConnected: updatedUser.isConnected };
-        }else{
-          return {...user, isConnected: false};
-        } 
-      })      
+        } else {
+          return { ...user, isConnected: false };
+        }
+      })
     });
-  }
-  ngOnDestroy(): void {
-    this.signalRService.stopConnection();
   };
-    getStatusClass(isConnected: boolean): string{
+  getStatusClass(isConnected: boolean): string {
     return isConnected ? 'connected' : 'disconnected';
   }
 }

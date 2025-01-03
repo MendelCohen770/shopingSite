@@ -1,154 +1,154 @@
-// משתנים לצבעים
-$primary-color: #4a90e2; // כחול עיקרי
-$secondary-color: #f5a623; // כתום משלים
-$background-color: #f0f4f8; // רקע כללי
-$text-color: #333; // טקסט כהה
-$footer-color: #2c3e50; // צבע פוטר כהה
-$gradient-start: #4a90e2;
-$gradient-end: #9013fe;
+// // משתנים לצבעים
+// $primary-color: #4a90e2; // כחול עיקרי
+// $secondary-color: #f5a623; // כתום משלים
+// $background-color: #f0f4f8; // רקע כללי
+// $text-color: #333; // טקסט כהה
+// $footer-color: #2c3e50; // צבע פוטר כהה
+// $gradient-start: #4a90e2;
+// $gradient-end: #9013fe;
 
-// ערבוב לגרדיאנט רקע
-@mixin gradient-bg($start-color, $end-color) {
-  background: linear-gradient(135deg, $start-color, $end-color);
-}
+// // ערבוב לגרדיאנט רקע
+// @mixin gradient-bg($start-color, $end-color) {
+//   background: linear-gradient(135deg, $start-color, $end-color);
+// }
 
-// עיצוב בסיסי
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+// // עיצוב בסיסי
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
 
-html, body {
-  font-family: 'Poppins', sans-serif;
-  background-color: $background-color;
-  color: $text-color;
-  line-height: 1.6;
-}
+// html, body {
+//   font-family: 'Poppins', sans-serif;
+//   background-color: $background-color;
+//   color: $text-color;
+//   line-height: 1.6;
+// }
 
-// עיצוב כותרת ותפריט
-header {
-  @include gradient-bg($gradient-start, $gradient-end);
-  color: white;
-  padding: 15px 20px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+// // עיצוב כותרת ותפריט
+// // header {
+// //   @include gradient-bg($gradient-start, $gradient-end);
+// //   color: white;
+// //   padding: 15px 20px;
+// //   text-align: center;
+// //   position: sticky;
+// //   top: 0;
+// //   z-index: 1000;
+// //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  h1 {
-    font-size: 2rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    animation: fadeInDown 1s ease-in-out;
-  }
-}
+// //   h1 {
+// //     font-size: 2rem;
+// //     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+// //     animation: fadeInDown 1s ease-in-out;
+// //   }
+// // }
 
-// אזור תוכן
-main.content {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 20px auto;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+// // אזור תוכן
+// main.content {
+//   padding: 20px;
+//   max-width: 1200px;
+//   margin: 20px auto;
+//   background: white;
+//   border-radius: 10px;
+//   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+//   transition: transform 0.3s, box-shadow 0.3s;
 
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  }
-}
+//   &:hover {
+//     transform: translateY(-10px);
+//     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+//   }
+// }
 
-// כפתורים
-button {
-  background: $primary-color;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+// // כפתורים
+// button {
+//   background: $primary-color;
+//   color: white;
+//   padding: 10px 20px;
+//   border: none;
+//   border-radius: 5px;
+//   font-size: 1rem;
+//   cursor: pointer;
+//   transition: background 0.3s, transform 0.2s;
 
-  &:hover {
-    background: darken($primary-color, 10%);
-    transform: scale(1.05);
-  }
+//   &:hover {
+//     background: darken($primary-color, 10%);
+//     transform: scale(1.05);
+//   }
 
-  &:active {
-    transform: scale(0.95);
-  }
-}
+//   &:active {
+//     transform: scale(0.95);
+//   }
+// }
 
-// פוטר
-footer {
-  @include gradient-bg(darken($footer-color, 10%), $footer-color);
-  color: white;
-  text-align: center;
-  padding: 15px 20px;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  font-size: 0.9rem;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-}
+// // פוטר
+// // footer {
+// //   @include gradient-bg(darken($footer-color, 10%), $footer-color);
+// //   color: white;
+// //   text-align: center;
+// //   padding: 15px 20px;
+// //   position: fixed;
+// //   width: 100%;
+// //   bottom: 0;
+// //   font-size: 0.9rem;
+// //   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+// // }
 
-// אנימציות
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+// // אנימציות
+// @keyframes fadeInDown {
+//   from {
+//     opacity: 0;
+//     transform: translateY(-20px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
 
-// רספונסיביות
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 1.5rem;
-  }
+// // רספונסיביות
+// @media (max-width: 768px) {
+//   header h1 {
+//     font-size: 1.5rem;
+//   }
 
-  main.content {
-    padding: 10px;
-    margin: 10px;
-  }
-}
-header {
-  display: flex;
-  justify-content: space-between; // מפריד בין הכותרת לכפתור
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f8f8f8; // צבע רקע
-  border-bottom: 1px solid #ddd; // מסגרת תחתונה
+//   main.content {
+//     padding: 10px;
+//     margin: 10px;
+//   }
+// }
+// header {
+//   display: flex;
+//   justify-content: space-between; // מפריד בין הכותרת לכפתור
+//   align-items: center;
+//   padding: 10px 20px;
+//   background-color: #f8f8f8; // צבע רקע
+//   border-bottom: 1px solid #ddd; // מסגרת תחתונה
 
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-  }
+//   .header-content {
+//     display: flex;
+//     justify-content: space-between;
+//     width: 100%;
+//     align-items: center;
+//   }
 
-  h1 {
-    font-size: 24px;
-    margin: 0;
-  }
+//   h1 {
+//     font-size: 24px;
+//     margin: 0;
+//   }
 
-  .logout-button {
-    background-color: #ff6b6b; // צבע רקע של הכפתור
-    color: white; // צבע טקסט
-    border: none; // ללא מסגרת
-    padding: 10px 15px; // ריפוד
-    font-size: 16px; // גודל פונט
-    border-radius: 5px; // פינות עגולות
-    cursor: pointer; // משנה את הסמן ליד
-    transition: background-color 0.3s; // אפקט מעבר בצבע
-  }
+//   .logout-button {
+//     background-color: #ff6b6b; // צבע רקע של הכפתור
+//     color: white; // צבע טקסט
+//     border: none; // ללא מסגרת
+//     padding: 10px 15px; // ריפוד
+//     font-size: 16px; // גודל פונט
+//     border-radius: 5px; // פינות עגולות
+//     cursor: pointer; // משנה את הסמן ליד
+//     transition: background-color 0.3s; // אפקט מעבר בצבע
+//   }
 
-  .logout-button:hover {
-    background-color: #e74c3c; // צבע רקע בזמן ריחוף
-  }
-}
+//   .logout-button:hover {
+//     background-color: #e74c3c; // צבע רקע בזמן ריחוף
+//   }
+// }
