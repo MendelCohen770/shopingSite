@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Shoping-Site-beckend.props" />
+</Project>
