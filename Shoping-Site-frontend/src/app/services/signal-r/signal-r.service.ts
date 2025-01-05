@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../../Models/user';
+import { Role, User } from '../../Models/user';
 import { ToastService } from '../toast/toast.service';
 
 @Injectable({
@@ -49,7 +49,7 @@ export class SignalRService {
       const userString = localStorage.getItem('user');
       if (userString) {
         const user = JSON.parse(userString);
-        if (user.role === 'admin') {
+        if (user.role === Role.admin) {
           this.toastService.info(message);
         }
       }

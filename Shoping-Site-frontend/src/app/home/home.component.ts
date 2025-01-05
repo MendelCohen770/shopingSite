@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { ApiService } from '../services/api/api.service';
 import { ToastService } from '../services/toast/toast.service';
 import { SignalRService } from '../services/signal-r/signal-r.service';
+import { Role } from '../Models/user';
 
 @Component({
   selector: 'app-home',
@@ -29,8 +30,8 @@ export class HomeComponent implements OnInit, OnDestroy{
         const role = this.authService.getRole();
         this.showLogout = this.router.url === '/home/products' || this.router.url === '/home/manage-products' || this.router.url === '/home/usersStatus';
         this.showHome = this.router.url === '/home/manage-products' || this.router.url === '/home/usersStatus';
-        this.showProductManagement = (this.router.url === '/home/products' || this.router.url === '/home/usersStatus') && role === 'admin';
-        this.showUsersStatus = (this.router.url === '/home/products' || this.router.url === '/home/manage-products') && role === 'admin';
+        this.showProductManagement = (this.router.url === '/home/products' || this.router.url === '/home/usersStatus') && role === Role.admin;
+        this.showUsersStatus = (this.router.url === '/home/products' || this.router.url === '/home/manage-products') && role === Role.admin;
       });
     };
 

@@ -7,6 +7,7 @@ import { authGuard } from './guard/auth.guard';
 import { userResolver } from './resolver/user.resolver';
 import { UsersStatusComponent } from './users-status/users-status.component';
 import { HomeComponent } from './home/home.component';
+import { Role } from './Models/user';
 
 export const routes: Routes = [
 
@@ -20,8 +21,8 @@ export const routes: Routes = [
             resolve: { user: userResolver},
             children: [
                   { path: 'products', component: ProductsComponent, },
-                  { path: 'manage-products', component: ProductManagementComponent, data: { role: 'admin' }},
-                  { path: 'usersStatus', component: UsersStatusComponent, data: { role: 'admin' }},
+                  { path: 'manage-products', component: ProductManagementComponent, data: { role: Role.admin }},
+                  { path: 'usersStatus', component: UsersStatusComponent, data: { role: Role.admin }},
             ]
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },

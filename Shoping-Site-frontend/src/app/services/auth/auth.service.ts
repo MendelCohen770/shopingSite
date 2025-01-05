@@ -1,6 +1,6 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
-import { User } from '../../Models/user';
+import { Role, User } from '../../Models/user';
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class AuthService {
     username: '',
     email: '',
     password: '',
-    role: '',
+    role: Role.user,
     isConnected: false
   };
 
@@ -30,7 +30,7 @@ export class AuthService {
     return this.user.isConnected;
   }
 
-  getRole(): string {
+  getRole(): Role {
     const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
     if(userOnString){
       this.user = JSON.parse(userOnString);
@@ -64,7 +64,7 @@ export class AuthService {
       }
     } else {
       console.log('No user data found in local storage.');
-      this.user = { id: 0, username: '', email: '',password: '', role: '', isConnected: false };
+      this.user = { id: 0, username: '', email: '',password: '', role: Role.user, isConnected: false };
     }
   };
   getTokenFromCookie(): string | null {

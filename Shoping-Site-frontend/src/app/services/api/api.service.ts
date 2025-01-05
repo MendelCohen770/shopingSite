@@ -21,7 +21,7 @@ export class ApiService {
 
   // users
   singUp(userData: any): Observable<any> {
-    return this.http.post(`${this.usersApiUrl}singUp`,userData);
+    return this.http.post(`${this.usersApiUrl}signUp`,userData);
   };
   login(userData: any): Observable<any> {
     return this.http.post(`${this.usersApiUrl}login`,userData, { withCredentials: true });

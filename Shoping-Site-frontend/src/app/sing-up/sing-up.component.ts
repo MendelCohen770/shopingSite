@@ -32,7 +32,7 @@ export class SingUpComponent {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        this.toastService.error("Error in singUp User!!!");
+        this.toastService.error("Error in signUp User!!!");
         console.log(error);
       }
   })
