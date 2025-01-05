@@ -1,6 +1,0 @@
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.AssemblyInfoInputs.cache
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.AssemblyInfo.cs
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.csproj.CoreCompileInputs.cache
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\mende\OneDrive\Desktop\פרוייקט למעוף\shopingSite\Shoping-Site-beckend\Shoping-Site-beckend\obj\Debug\net9.0\Shoping-Site-beckend.sourcelink.json
