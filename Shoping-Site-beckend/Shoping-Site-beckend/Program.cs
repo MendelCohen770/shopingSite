@@ -1,23 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shoping_Site_beckend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using Shoping_Site_beckend.Hubs;
-using Microsoft.Extensions.DependencyInjection;
+using Shoping_Site_beckend.Db;
+using Shoping_Site_beckend.SignalR;
+using Shoping_Site_beckend.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// החיבור לקובץ AddDbContext שמחובר ל MySQL 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                      new MySqlServerVersion(new Version(8, 0, 32))));
 
-// קונפיגורציה של Authentication ו-JWT
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -25,7 +20,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
-                // קריאת הטוקן מתוך Authorization Header או Cookie
+                
                 var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                 if (string.IsNullOrEmpty(token))
                 {
@@ -50,6 +45,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddSingleton<IUserConnectionService, UserConnectionService>();
+builder.Services.AddScoped<IUsersQueries, UsersQueries>();
+builder.Services.AddScoped<IProductsQueries, ProductsQueries>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -57,7 +54,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// הגדרת CORS עם תמיכה ב-Cookies
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
@@ -70,12 +67,19 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+
 app.UseCors("AllowSpecificOrigins");
 
-app.UseAuthentication();  // מוסיף את Authentication
-app.UseAuthorization();   // מוסיף את Authorization
+app.UseAuthentication(); 
+app.UseAuthorization();   
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

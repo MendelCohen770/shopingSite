@@ -1,11 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { Product } from '../Models/product';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
-import { AuthService } from '../services/auth/auth.service';
-import { SignalRService } from '../services/signal-r/signal-r.service';
 import { ToastService } from '../services/toast/toast.service';
 
 @Component({
@@ -14,7 +11,7 @@ import { ToastService } from '../services/toast/toast.service';
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.scss'
 })
-export class ProductManagementComponent implements OnInit, OnDestroy{
+export class ProductManagementComponent {
 
   name: string = '';
   stock: number = 0;
@@ -22,29 +19,14 @@ export class ProductManagementComponent implements OnInit, OnDestroy{
   imageUrl: string = '';
   products: Product[] = [];
 
-  constructor(private router: Router,
-     private apiService: ApiService,
-      private authService: AuthService,
-       private route: ActivatedRoute,
-        private signalRService: SignalRService,
-      private toastService: ToastService) { }
-  
-  ngOnInit(): void {
-    const productsResolver = this.route.snapshot.data['products'];
-    if(productsResolver){
-      this.products = productsResolver;
-    };
-    this.signalRService.startConnection()
-    const lastUrl = localStorage.getItem('lastUrl');
-    if (this.authService.isLoggedIn() && lastUrl) {
-      this.router.navigate([lastUrl]);
-    } else {
-      this.router.navigate(['login']);
-    }
-  }
+  constructor(
+    private apiService: ApiService,
+    private toastService: ToastService) { }
 
-  ngOnDestroy(): void {
-    this.signalRService.stopConnection();
+  ngOnInit(): void {
+    this.apiService.getProducts().subscribe(products => {
+      this.products = products;
+    })
   }
 
   addProduct() {

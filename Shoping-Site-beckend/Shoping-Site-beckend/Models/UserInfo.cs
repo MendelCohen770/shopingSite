@@ -1,3 +1,5 @@
+using Shoping_Site_beckend.Enums;
+
 namespace Shoping_Site_beckend.Models
 {
     public class UserInfo
@@ -6,7 +8,7 @@ namespace Shoping_Site_beckend.Models
         public string? username { get; set; }
         public string? email { get; set; }
         public string? password { get; set; }
-        public string? Role { get; set; }
+        public RoleEnum? Role { get; set; }
         public bool isConnected { get; set; }
     }
 }

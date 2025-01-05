@@ -1,7 +1,7 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
-import { UserService } from '../user.service';
-import { User } from '../../Models/user';
+import { Role, User } from '../../Models/user';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,11 @@ export class AuthService {
     username: '',
     email: '',
     password: '',
-    role: '',
+    role: Role.user,
     isConnected: false
   };
 
-  constructor(private userService: UserService) {
+  constructor() {
     this.loadLoginState();
   }
   
@@ -30,7 +30,7 @@ export class AuthService {
     return this.user.isConnected;
   }
 
-  getRole(): string {
+  getRole(): Role {
     const userOnString = localStorage.getItem(this.STORAGE_KEY_USER);
     if(userOnString){
       this.user = JSON.parse(userOnString);
@@ -51,7 +51,6 @@ export class AuthService {
       this.user.isConnected = false;
     }
     localStorage.removeItem(this.STORAGE_KEY_USER);
-    this.userService.deleteTokenFromCookie();
   };
 
   private loadLoginState() {
@@ -65,7 +64,22 @@ export class AuthService {
       }
     } else {
       console.log('No user data found in local storage.');
-      this.user = { id: 0, username: '', email: '',password: '', role: '', isConnected: false };
+      this.user = { id: 0, username: '', email: '',password: '', role: Role.user, isConnected: false };
     }
-  }
+  };
+  getTokenFromCookie(): string | null {
+    const name = "AuthToken=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return null;
+  };
 }

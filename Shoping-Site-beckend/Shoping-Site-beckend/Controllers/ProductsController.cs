@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Shoping_Site_beckend.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-
+using Shoping_Site_beckend.Queries;
+using Shoping_Site_beckend.Enums;
 
 namespace Shoping_Site_beckend.Controllers
 {
@@ -10,19 +10,23 @@ namespace Shoping_Site_beckend.Controllers
     [Route("api/[controller]")]
     public class  ProductsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IProductsQueries _productsQueries;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(IProductsQueries productsQueries)
         {
-            _context = context;
+            _productsQueries = productsQueries;
         }
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _productsQueries.GetAllProductsAsync();
+            if (products.Count == 0) 
+            {
+                return NotFound("Not found Products.");
+            }
             return Ok(products);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(RoleEnum.admin))]
         [HttpPost("create_product")]
         public async Task<IActionResult> CreateProduct([FromBody] Product newProduct)
         {
@@ -30,41 +34,20 @@ namespace Shoping_Site_beckend.Controllers
             {
                 return BadRequest("You need to fill in all the details!");
             }
-            await _context.Products.AddAsync(newProduct);
-            await _context.SaveChangesAsync();
+            await _productsQueries.CreateProductAsync(newProduct);
             return Ok(new { message = "Product created successfully!", productId = newProduct.id });
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(RoleEnum.admin))]
         [HttpGet("delete_product/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            //(p => p.id == id);
+            var product = await _productsQueries.GetProductById(id);
             if (product == null)
             {
-                return NotFound("Product Not Found!");
+                return NotFound("Product not found!");
             }
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            await _productsQueries.DeleteProductAsync(product);
             return Ok(new { message = "Product deleted successfully!" });
         }
-        [HttpGet("search_product/{name}")]
-        public async Task<IActionResult> SherchtProduct(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return BadRequest("Please provide a valid product name.");
-            }
-
-            var products = await _context.Products.Where(p => EF.Functions.Like(p.name, $"%{name}%")).ToListAsync();
-
-
-            if (products == null || !products.Any())
-            {
-                return NotFound("Product not found.");
-            }
-            return Ok(products);
-        }
-
     }
 }

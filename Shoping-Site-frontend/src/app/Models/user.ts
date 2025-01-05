@@ -3,6 +3,11 @@ export interface User {
     username: string;
     email: string;
     password: string;
-    role: string;
+    role: Role;
     isConnected: boolean;
+}
+
+export enum Role{
+    user = 1,
+    admin = 2
 }

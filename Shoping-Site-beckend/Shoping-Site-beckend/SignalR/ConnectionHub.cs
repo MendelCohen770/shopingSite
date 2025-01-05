@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 using Shoping_Site_beckend.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Shoping_Site_beckend.Db;
+using Shoping_Site_beckend.Queries;
 
-namespace Shoping_Site_beckend.Hubs
+namespace Shoping_Site_beckend.SignalR
 {
     public class ConnectionHub : Hub
     {
         private readonly IUserConnectionService _userConnectionService;
         private readonly AppDbContext _context;
+        private readonly IUsersQueries _usersQueries;
 
-        public ConnectionHub(IUserConnectionService userConnectionService, AppDbContext context)
+        public ConnectionHub(IUserConnectionService userConnectionService, AppDbContext context, IUsersQueries usersQueries)
         {
             _userConnectionService = userConnectionService;
             _context = context;
+            _usersQueries = usersQueries;
         }
 
         public override async Task OnConnectedAsync()
@@ -23,7 +25,7 @@ namespace Shoping_Site_beckend.Hubs
 
             if (!string.IsNullOrEmpty(userName))
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.username == userName);
+                var user = await _usersQueries.GetUserByNameAsync(userName);
 
                 if (user != null)
                 {
@@ -39,7 +41,7 @@ namespace Shoping_Site_beckend.Hubs
 
                     _userConnectionService.AddUser(Context.ConnectionId, userInfo);
 
-                    var adminUsers = await _context.Users.Where(u => u.Role == "admin").ToListAsync();
+                    var adminUsers = await _usersQueries.GetAdminsUsersAsync();
                     foreach (var admin in adminUsers)
                     {
                         var connectionId = _userConnectionService.GetConnectionIdByUserId(admin.id);
@@ -48,8 +50,6 @@ namespace Shoping_Site_beckend.Hubs
                             await Clients.Client(connectionId).SendAsync("ReceiveAdminNotification", $"{user.username} has connected.");
                         }
                     }
-
-                    // עדכון לכל המשתמשים לגבי מצב החיבור החדש
                     await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
                 }
             }
@@ -63,7 +63,7 @@ namespace Shoping_Site_beckend.Hubs
 
             if (!string.IsNullOrEmpty(userName))
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.username == userName);
+                var user = await _usersQueries.GetUserByNameAsync(userName);
 
                 if (user != null)
                 {
@@ -72,7 +72,7 @@ namespace Shoping_Site_beckend.Hubs
                     {
                         _userConnectionService.RemoveUser(Context.ConnectionId);
 
-                        var adminUsers = await _context.Users.Where(u => u.Role == "admin").ToListAsync();
+                        var adminUsers = await _usersQueries.GetAdminsUsersAsync();
                         foreach (var admin in adminUsers)
                         {
                             var connectionId = _userConnectionService.GetConnectionIdByUserId(admin.id);
@@ -81,8 +81,6 @@ namespace Shoping_Site_beckend.Hubs
                                 await Clients.Client(connectionId).SendAsync("ReceiveAdminNotification", $"{user.username} has disconnected.");
                             }
                         }
-
-                        // עדכון לכל המשתמשים לגבי ההתנתקות
                         await Clients.All.SendAsync("ReceiveUserStatus", _userConnectionService.GetAllUsers());
                     }
                 }

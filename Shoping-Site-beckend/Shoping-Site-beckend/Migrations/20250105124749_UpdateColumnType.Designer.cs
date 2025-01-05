@@ -6,14 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shoping_Site_beckend.Db;
 
-
 #nullable disable
 
 namespace Shoping_Site_beckend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241224073249_AddProductTable")]
-    partial class AddProductTable
+    [Migration("20250105124749_UpdateColumnType")]
+    partial class UpdateColumnType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,45 +22,51 @@ namespace Shoping_Site_beckend.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ShopingSiteBackend.Models.Product", b =>
+            modelBuilder.Entity("Shoping_Site_beckend.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("imageUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<string>("name")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("Stock")
+                    b.Property<int?>("stock")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ShopingSiteBackend.Models.User", b =>
+            modelBuilder.Entity("Shoping_Site_beckend.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("email")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("password")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("username")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Users");
                 });

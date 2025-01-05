@@ -20,12 +20,6 @@ export class SingUpComponent {
      private apiService: ApiService,
       private toastService: ToastService) { }
 
-  ngOnInit() { 
-       const lastUrl = localStorage.getItem('lastUrl'); 
-       if (lastUrl) {
-         this.router.navigate([lastUrl]); 
-       } 
-     }
   onSubmit() {
     const userData = {
       username: this.username,
@@ -38,7 +32,7 @@ export class SingUpComponent {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        this.toastService.error("Error in singUp User!!!");
+        this.toastService.error("Error in signUp User!!!");
         console.log(error);
       }
   })

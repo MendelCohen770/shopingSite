@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shoping_Site_beckend.Models;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-using Shoping_Site_beckend.Hubs;
-using BCrypt.Net;
+using Shoping_Site_beckend.Queries;
+using Shoping_Site_beckend.Enums;
 
 
 namespace Shoping_Site_beckend.Controllers
@@ -20,36 +15,35 @@ namespace Shoping_Site_beckend.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUsersQueries _usersQueries;
         private readonly IUserConnectionService _userConnectionService;
-
-        public UsersController(AppDbContext context, IUserConnectionService userConnectionService)
+        public UsersController(IUserConnectionService userConnectionService, IUsersQueries usersQueries)
         {
-            _context = context;
             _userConnectionService = userConnectionService;
+            _usersQueries = usersQueries;
         }
-        [Authorize(Roles = "admin")]
+       
+        [Authorize(Roles = nameof(RoleEnum.admin))]
         [HttpGet("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _context.Users.ToListAsync();  // מבצע קריאה למסד הנתונים
-            var connectedUsers = _userConnectionService.GetAllUsers();  // מקבל את כל המשתמשים המחוברים
+            var users = await _usersQueries.GetAllUsersAsync();
+            var connectedUsers = _userConnectionService.GetAllUsers(); 
 
-            // מבצע חיבור של המידע על המשתמשים עם מידע החיבור
-            var userInfos = users.Select(u => new UserInfo
+            var usersInfo = users.Select(u => new UserInfo
             {
                 id = u.id,
                 username = u.username,
                 email = u.email,
                 password = "***",
                 Role = u.Role,
-                isConnected = connectedUsers.Any(c => c.username == u.username && c.isConnected)  // בדיקה אם המשתמש מחובר
+                isConnected = connectedUsers.Any(c => c.username == u.username && c.isConnected)
             }).ToList();
 
-            return Ok(userInfos);
+            return Ok(usersInfo);
         }
 
-        [HttpPost("singUp")]
+        [HttpPost("signUp")]
         public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
             if (newUser == null || string.IsNullOrEmpty(newUser.username) || string.IsNullOrEmpty(newUser.password) || string.IsNullOrEmpty(newUser.email))
@@ -57,7 +51,7 @@ namespace Shoping_Site_beckend.Controllers
                 return BadRequest("You need to fill in all the details!");
             }
 
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.username == newUser.username);
+            var existingUser = await _usersQueries.GetUserByNameAsync(newUser.username);
             if (existingUser != null)
             {
                 return BadRequest("Username already exists!");
@@ -65,12 +59,15 @@ namespace Shoping_Site_beckend.Controllers
 
             if (newUser.password == "111")
             {
-                newUser.Role = "admin";
-            };
+                newUser.Role = RoleEnum.admin;
+            }
+            else
+            {
+                newUser.Role = RoleEnum.user;
+            }
 
             newUser.password = BCrypt.Net.BCrypt.HashPassword(newUser.password);
-            await _context.Users.AddAsync(newUser);
-            await _context.SaveChangesAsync();
+            await _usersQueries.CreateUserAsync(newUser);
             return Ok(new { message = "User created successfully!", userId = newUser.id });
         }
 
@@ -81,23 +78,22 @@ namespace Shoping_Site_beckend.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.username == loginRequest.username);
+            var user = await _usersQueries.GetUserByNameAsync(loginRequest.username);
 
             if (user == null)
             {
-                return Unauthorized("User Not Found!");
+                return Unauthorized("User not found!");
             }
             bool isValid = BCrypt.Net.BCrypt.Verify(loginRequest.password, user.password);
             if(!isValid)
             {
-                return Unauthorized("Invalid Password!");
+                return Unauthorized("Invalid password!");
             }
 
-            // יצירת טוקן JWT
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.username),
-                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -113,13 +109,12 @@ namespace Shoping_Site_beckend.Controllers
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            // שליחת הטוקן בקוקי
             Response.Cookies.Append("AuthToken", tokenString, new CookieOptions
             {
-                HttpOnly = true,
-                Secure = true,    // עובד רק על HTTPS
-                Expires = DateTime.Now.AddHours(3), // תוקף הטוקן
-                SameSite = SameSiteMode.Strict // מונע שליחה לאתרים אחרים
+                HttpOnly = false,
+                Secure = true,  
+                Expires = DateTime.Now.AddHours(3), 
+                SameSite = SameSiteMode.Strict 
             });
 
             user.password = "***";
@@ -155,7 +150,7 @@ namespace Shoping_Site_beckend.Controllers
                 return Unauthorized("Invalid token.");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.username == username);
+            var user = await _usersQueries.GetUserByNameAsync(username);
             if (user == null)
             {
                 return Unauthorized("User not found.");
@@ -164,12 +159,5 @@ namespace Shoping_Site_beckend.Controllers
             Response.Cookies.Delete("AuthToken");
             return Ok(new { message = "Logout successful" });
         }
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _context.Users.ToListAsync();
-            return Ok(users);
-        }
-
     }
 }
