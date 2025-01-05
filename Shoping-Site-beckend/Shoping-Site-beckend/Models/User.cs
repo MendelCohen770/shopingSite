@@ -1,11 +1,15 @@
-﻿namespace ShopingSiteBackend.Models
+﻿using Shoping_Site_beckend.Enums;
+
+namespace Shoping_Site_beckend.Models
 {
+
     public class User
     {
-        public int Id { get; set; }               // מזהה ייחודי
-        public string Username { get; set; }      // שם משתמש
-        public string Password { get; set; }      // סיסמה (ניתן להצפין בהמשך)
-        public string Email { get; set; }         // כתובת אימייל
-        public string Role { get; set; }          // תפקיד: "Admin" או "User"
+        public int id { get; set; }
+        public required string username { get; set; }
+        public required string password { get; set; }
+        public required string email { get; set; }
+        public  RoleEnum? Role { get; set; } = RoleEnum.user;
     }
+
 }

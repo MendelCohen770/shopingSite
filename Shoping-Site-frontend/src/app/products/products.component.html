@@ -1,0 +1,17 @@
+<div>
+<div class="product-search">
+    <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="חפש מוצרים..." />
+  </div>
+  <div *ngIf="noResults" class="no-results-message">
+    לא נמצא מוצר התואם את החיפוש
+  </div>
+
+  <div class="products-list">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <img [src]="product.imageUrl" alt="{{ product.name }}" />
+      <h3>{{ product.name }}</h3>
+      <p>Stock: {{ product.stock }}</p>
+      <span>{{ product.price | currency:'ILS' }}</span>
+    </div>
+  </div>
+</div>

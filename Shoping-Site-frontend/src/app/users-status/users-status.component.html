@@ -1,0 +1,23 @@
+<div *ngFor="let user of usersStatus">
+  <div class="user-card">
+    <!-- הצגת שם המשתמש -->
+    <span class="user-info">
+      <strong>User Name: {{ user.username }}</strong>
+    </span>
+    
+    <!-- הצגת המייל -->
+    <span class="user-info">
+      <em>Email: {{ user.email }}</em>
+    </span>
+    
+    <!-- הצגת ה-Role -->
+    <span class="user-info">
+      <small>Role: {{ user.role}}</small>
+    </span>
+
+    <!-- כפתור שידמה כפתור אמיתי ויתעדכן לפי הסטטוס -->
+    <span [ngClass]="getStatusClass(user.isConnected)" class="status-btn">
+      {{ user.isConnected ? 'Connected' : 'Disconnected' }}
+    </span>
+  </div>
+</div>
