@@ -71,28 +71,6 @@
         }
       }
     },
-    "/api/Products/search_product/{name}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Users/getAllUsers": {
       "get": {
         "tags": [
@@ -105,7 +83,7 @@
         }
       }
     },
-    "/api/Users/singUp": {
+    "/api/Users/signUp": {
       "post": {
         "tags": [
           "Users"
@@ -178,18 +156,6 @@
           }
         }
       }
-    },
-    "/api/Users": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -240,6 +206,14 @@
         },
         "additionalProperties": false
       },
+      "RoleEnum": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "User": {
         "required": [
           "email",
@@ -265,8 +239,7 @@
             "nullable": true
           },
           "role": {
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/RoleEnum"
           }
         },
         "additionalProperties": false

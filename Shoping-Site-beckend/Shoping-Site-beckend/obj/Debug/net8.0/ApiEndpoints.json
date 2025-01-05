@@ -42,32 +42,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Shoping_Site_beckend.Controllers.ProductsController",
-    "Method": "SherchtProduct",
-    "RelativePath": "api/Products/search_product/{name}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "name",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Shoping_Site_beckend.Controllers.UsersController",
-    "Method": "GetUsers",
-    "RelativePath": "api/Users",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "Shoping_Site_beckend.Controllers.UsersController",
     "Method": "GetAllUsers",
     "RelativePath": "api/Users/getAllUsers",
@@ -106,7 +80,7 @@
   {
     "ContainingType": "Shoping_Site_beckend.Controllers.UsersController",
     "Method": "CreateUser",
-    "RelativePath": "api/Users/singUp",
+    "RelativePath": "api/Users/signUp",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

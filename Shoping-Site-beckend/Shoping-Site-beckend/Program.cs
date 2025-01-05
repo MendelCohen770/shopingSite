@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shoping_Site_beckend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using Shoping_Site_beckend.Hubs;
-using Microsoft.Extensions.DependencyInjection;
+using Shoping_Site_beckend.Db;
+using Shoping_Site_beckend.SignalR;
+using Shoping_Site_beckend.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +45,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddSingleton<IUserConnectionService, UserConnectionService>();
+builder.Services.AddScoped<IUsersQueries, UsersQueries>();
+builder.Services.AddScoped<IProductsQueries, ProductsQueries>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -70,8 +68,8 @@ builder.Services.AddSignalR();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
-using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())
 {
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 }
 

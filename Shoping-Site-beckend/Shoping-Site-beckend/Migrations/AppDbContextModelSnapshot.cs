@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Shoping_Site_beckend.Models;
+using Shoping_Site_beckend.Db;
 
 #nullable disable
 
@@ -48,8 +48,8 @@ namespace Shoping_Site_beckend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("longtext");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("email")
                         .IsRequired()
