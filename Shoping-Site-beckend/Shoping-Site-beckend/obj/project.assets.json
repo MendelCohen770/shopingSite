@@ -453,11 +453,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
+      "projectUniqueName": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
       "projectName": "Shoping-Site-beckend",
-      "projectPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
+      "projectPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend.csproj",
       "packagesPath": "C:\\Users\\mende\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\Shoping-Site-beckend\\Shoping-Site-beckend\\Shoping-Site-beckend\\obj\\",
+      "outputPath": "C:\\Users\\mende\\OneDrive\\Desktop\\פרוייקט למעוף\\shopingSite\\Shoping-Site-beckend\\Shoping-Site-beckend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
