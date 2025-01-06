@@ -26,7 +26,7 @@ export class SingUpComponent {
       email: this.email,
       password: this.password
     }
-    this.apiService.singUp(userData).subscribe({
+    this.apiService.signUp(userData).subscribe({
       next :() => {
         this.toastService.success("singUp User Success!!!");
         this.router.navigate(['/login']);

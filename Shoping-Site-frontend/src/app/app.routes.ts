@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { SingUpComponent } from './sing-up/sing-up.component';
+import { SingUpComponent } from './sign-up/sing-up.component';
 import { ProductsComponent } from './products/products.component'
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { authGuard } from './guard/auth.guard';

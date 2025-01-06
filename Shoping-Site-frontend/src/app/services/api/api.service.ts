@@ -20,7 +20,7 @@ export class ApiService {
   constructor(private http : HttpClient, private authService: AuthService) { }
 
   // users
-  singUp(userData: any): Observable<any> {
+  signUp(userData: any): Observable<any> {
     return this.http.post(`${this.usersApiUrl}signUp`,userData);
   };
   login(userData: any): Observable<any> {
