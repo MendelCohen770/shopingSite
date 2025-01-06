@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     ngOnInit(){
       this.route.snapshot.data['user'];
-      this.signalRService.startConnection();
     }
     ngOnDestroy(): void {
       this.signalRService.stopConnection();
