@@ -7,10 +7,10 @@ import { ToastService } from '../services/toast/toast.service';
 @Component({
   selector: 'app-sing-up',
   imports: [FormsModule],
-  templateUrl: './sing-up.component.html',
-  styleUrl: './sing-up.component.scss'
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.scss'
 })
-export class SingUpComponent {
+export class SignUpComponent {
 
   username = '';
   email = '';
