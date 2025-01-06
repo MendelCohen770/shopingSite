@@ -1,9 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
-import { ApiService } from './services/api/api.service';
+import { Component} from '@angular/core';
+import { RouterOutlet} from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './services/auth/auth.service';
-import { ToastService } from './services/toast/toast.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 
@@ -15,9 +12,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class AppComponent {
   title = 'Shopping-Site';
-
-  
- 
-  
-
 }
